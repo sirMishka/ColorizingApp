@@ -8,7 +8,6 @@
 import UIKit
 
 class ViewController: UIViewController {
-    
     //MARK: - IBOutlets
     @IBOutlet var mainView: UIView!
     
@@ -23,27 +22,27 @@ class ViewController: UIViewController {
     //MARK: - View did load
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         mainView.layer.cornerRadius = 10
         mainViewUpdate()
         
-        redColorLabel.text = String(format: "%.2f", redColorSlider.value)
-        greenColorLabel.text = String(format: "%.2f", greenColorSlider.value)
-        blueColorLabel.text = String(format: "%.2f", blueColorSlider.value)
+        setValue(for: redColorLabel, greenColorLabel,blueColorLabel)
     }
 
     //MARK: - IBActions
-    @IBAction func redSliderAction() {
-        redColorLabel.text = String(format: "%.2f", redColorSlider.value)
+    @IBAction func rgbSliderAction(_ sender: UISlider) {
         mainViewUpdate()
+        
+        switch sender {
+        case redColorSlider:
+            redColorLabel.text = string(from: redColorSlider)
+        case greenColorSlider:
+            greenColorLabel.text = string(from: greenColorSlider)
+        default:
+            blueColorLabel.text = string(from: blueColorSlider)
+        }
     }
-    @IBAction func greenSliderAction() {
-        greenColorLabel.text = String(format: "%.2f", greenColorSlider.value)
-        mainViewUpdate()
-    }
-    @IBAction func blueSliderAction() {
-        blueColorLabel.text = String(format: "%.2f", blueColorSlider.value)
-        mainViewUpdate()
-    }
+    
     
     // MARK: - Private methods
     private func mainViewUpdate() {
@@ -53,6 +52,23 @@ class ViewController: UIViewController {
             blue: CGFloat(blueColorSlider.value),
             alpha: 1
         )
+    }
+    
+    private func setValue(for labels: UILabel...) {
+        labels.forEach { label in
+            switch label {
+            case redColorLabel:
+                label.text = string(from: redColorSlider)
+            case greenColorLabel:
+                label.text = string(from: greenColorSlider)
+            default:
+                label.text = string(from: blueColorSlider)
+            }
+        }
+    }
+    
+    private func string(from slider: UISlider) -> String {
+        String(format: "%.2f", slider.value)
     }
 }
 
